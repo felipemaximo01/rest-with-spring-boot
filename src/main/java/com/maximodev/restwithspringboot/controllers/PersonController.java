@@ -2,8 +2,8 @@ package com.maximodev.restwithspringboot.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.maximodev.restwithspringboot.Services.PersonServices;
 import com.maximodev.restwithspringboot.model.Person;
+import com.maximodev.restwithspringboot.services.PersonServices;
 
 import java.util.List;
 
