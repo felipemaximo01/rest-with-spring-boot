@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.maximodev.restwithspringboot.data.vo.v1.PersonVO;
 import com.maximodev.restwithspringboot.exceptions.ResourceNotFoundException;
 import com.maximodev.restwithspringboot.model.Person;
 import com.maximodev.restwithspringboot.repositories.PersonRepository;
@@ -17,24 +18,24 @@ public class PersonServices {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<Person> findAll(){
+    public List<PersonVO> findAll(){
         logger.info("Finding all people!");
 
         return personRepository.findAll();
     }
-    public Person findById(Long id){
+    public PersonVO findById(Long id){
         logger.info("Finding one person!");
 
         return personRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
     }
 
-    public Person create(Person person) {
+    public PersonVO create(PersonVO person) {
         logger.info("Creating one person!");
         return personRepository.save(person);
     }
 
-    public Person update(Person person) {
+    public PersonVO update(PersonVO person) {
         logger.info("Updating one person!");
 
         Person entity = personRepository.findById(person.getId())
