@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.maximodev.restwithspringboot.data.vo.v1.PersonVO;
 import com.maximodev.restwithspringboot.exceptions.ResourceNotFoundException;
+import com.maximodev.restwithspringboot.mapper.DozerMapper;
 import com.maximodev.restwithspringboot.model.Person;
 import com.maximodev.restwithspringboot.repositories.PersonRepository;
 
@@ -21,18 +22,21 @@ public class PersonServices {
     public List<PersonVO> findAll(){
         logger.info("Finding all people!");
 
-        return personRepository.findAll();
+        return DozerMapper.parseListObjects(personRepository.findAll(), PersonVO.class);
     }
     public PersonVO findById(Long id){
         logger.info("Finding one person!");
 
-        return personRepository.findById(id)
+        var entity = personRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+
+        return DozerMapper.parseObject(entity, PersonVO.class);
     }
 
     public PersonVO create(PersonVO person) {
         logger.info("Creating one person!");
-        return personRepository.save(person);
+        var entity = DozerMapper.parseObject(person, Person.class);
+        return DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
     }
 
     public PersonVO update(PersonVO person) {
@@ -46,7 +50,7 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return personRepository.save(entity);
+        return DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
     }
 
     public void delete(Long id) {
