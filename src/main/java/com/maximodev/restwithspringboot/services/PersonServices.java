@@ -10,6 +10,7 @@ import com.maximodev.restwithspringboot.data.vo.v1.PersonVO;
 import com.maximodev.restwithspringboot.data.vo.v2.PersonVOV2;
 import com.maximodev.restwithspringboot.exceptions.ResourceNotFoundException;
 import com.maximodev.restwithspringboot.mapper.DozerMapper;
+import com.maximodev.restwithspringboot.mapper.custom.PersonMapper;
 import com.maximodev.restwithspringboot.model.Person;
 import com.maximodev.restwithspringboot.repositories.PersonRepository;
 
@@ -19,6 +20,9 @@ public class PersonServices {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonMapper personMapper;
 
     public List<PersonVO> findAll(){
         logger.info("Finding all people!");
@@ -43,8 +47,8 @@ public class PersonServices {
 
     public PersonVOV2 createV2(PersonVOV2 person) {
         logger.info("Creating one person!");
-        var entity = DozerMapper.parseObject(person, Person.class);
-        return DozerMapper.parseObject(personRepository.save(entity), PersonVOV2.class);
+        var entity = personMapper.convertVoToEntity(person);
+        return personMapper.convertEntityToVo(personRepository.save(entity));
     }
 
     public PersonVO update(PersonVO person) {
