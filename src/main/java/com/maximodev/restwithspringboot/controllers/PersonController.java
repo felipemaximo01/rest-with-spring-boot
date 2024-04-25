@@ -3,6 +3,7 @@ package com.maximodev.restwithspringboot.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maximodev.restwithspringboot.data.vo.v1.PersonVO;
+import com.maximodev.restwithspringboot.data.vo.v2.PersonVOV2;
 import com.maximodev.restwithspringboot.services.PersonServices;
 
 import java.util.List;
@@ -38,6 +39,11 @@ public class PersonController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public PersonVO create(@RequestBody PersonVO person){
         return  personServices.create(person);
+    }
+
+    @PostMapping(value = "/v2",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVOV2 createV2(@RequestBody PersonVOV2 person){
+        return  personServices.createV2(person);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
